@@ -430,22 +430,16 @@ namespace YoutubeExplode
             }
 
             // Get metadata extension
-            request = $"{YoutubeHost}/get_video_metadata?video_id={videoId}";
-            response = await _httpService.GetStringAsync(request).ConfigureAwait(false);
-            var videoXml = XElement.Parse(response).StripNamespaces().ElementStrict("html_content");
-
-            // Parse metadata extension
-            var description = videoXml.ElementStrict("video_info").ElementStrict("description").Value;
-            var likeCount = (long) videoXml.ElementStrict("video_info").ElementStrict("likes_count_unformatted");
-            var dislikeCount = (long) videoXml.ElementStrict("video_info").ElementStrict("dislikes_count_unformatted");
-
-            // Parse author info
-            var authorId = videoXml.ElementStrict("user_info").ElementStrict("channel_external_id").Value;
-            var authorName = videoXml.ElementStrict("user_info").ElementStrict("username").Value;
-            var authorTitle = videoXml.ElementStrict("user_info").ElementStrict("channel_title").Value;
-            var authorIsPaid = videoXml.ElementStrict("user_info").ElementStrict("channel_paid").Value == "1";
-            var authorLogoUrl = videoXml.ElementStrict("user_info").ElementStrict("channel_logo_url").Value;
-            var authorBannerUrl = videoXml.ElementStrict("user_info").ElementStrict("channel_banner_url").Value;
+            // HACK
+            var description = "";
+            var likeCount = 0;
+            var dislikeCount = 0;
+            var authorId = "";
+            var authorName = "";
+            var authorTitle = "";
+            var authorIsPaid = false;
+            var authorLogoUrl = "";
+            var authorBannerUrl = "";
 
             // Concat metadata
             var author = new Channel(authorId, authorName, authorTitle, authorIsPaid, authorLogoUrl, authorBannerUrl);
